@@ -1,5 +1,7 @@
 package com.intellias.gp;
 
+import com.intellias.gp.commands.Command;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -10,10 +12,39 @@ import java.io.IOException;
 public class MainServletController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println(req.getContextPath());
-        System.out.println(req.getServerPort());
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("index.html");
-        requestDispatcher.forward(req, resp);
-//        super.doGet(req, resp);
+        process(req, resp);
     }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        process(req, resp);
+    }
+
+    private void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String commandParamValue = req.getParameter("command");
+
+        Command command;
+        if ("A".equals(commandParamValue)){
+            command = new Command(){
+                public String execute(HttpServletRequest request, HttpServletResponse response) {
+                    System.out.println(request.getContextPath());
+                    return "index.html";
+                }
+            };
+
+        } else {
+            command = new Command(){
+                public String execute(HttpServletRequest request, HttpServletResponse response) {
+                    System.out.println("Error!");
+                    return "oops.html";
+                }
+            };
+        }
+        String viewName = command.execute(req, resp);
+
+        RequestDispatcher requestDispatcher = req.getRequestDispatcher(viewName);
+        requestDispatcher.forward(req, resp);
+
+    }
+
 }

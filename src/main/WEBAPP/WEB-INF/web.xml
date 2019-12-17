@@ -10,10 +10,10 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
-        <url-pattern>/dosomething</url-pattern>
+        <url-pattern>/do</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>MainController</servlet-name>
-        <url-pattern>/dosomething2</url-pattern>
+        <url-pattern>/do2</url-pattern>
     </servlet-mapping>
 </web-app>
